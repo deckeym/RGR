@@ -1,5 +1,14 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include <cstdint>
+#include <stdexcept>
+#include <sstream>
 
-#include "function.h"
+using namespace std;
 
 uint64_t mod(uint64_t g, uint64_t x, uint64_t p, uint64_t y) {
     uint64_t res = 1;
@@ -93,11 +102,11 @@ void encryptDecryptMessage() {
     cin.ignore();
     getline(cin, M);
 
-    vector<int> shif;
-    vector<int> deshif;
+    vector<uint64_t> shif;
+    vector<uint64_t> deshif;
 
     for (char c : M) {
-        shif.push_back(static_cast<int>(c));
+        shif.push_back(static_cast<uint64_t>(static_cast<unsigned char>(c))); // Сохраняем Unicode-значение каждого символа
     }
 
     uint64_t K;
@@ -110,7 +119,7 @@ void encryptDecryptMessage() {
     r = mod(g, K, p, p - 1);
     cout << "r = " << r << endl;
 
-    for (int i = 0; i < shif.size(); i++) { // шифрование
+    for (int i = 0; i < shif.size(); i++) { // Шифрование
         e = ((shif[i] % p) * (mod(Yb, K, p, p - 1))) % p;
         deshif.push_back(e);
     }
@@ -118,7 +127,7 @@ void encryptDecryptMessage() {
     filename = "encrypted_message.txt";
     ofstream file(filename);
     if (file.is_open()) {
-        for (int i : deshif) {
+        for (uint64_t i : deshif) {
             file << i << " ";
         }
         file.close();
@@ -139,21 +148,18 @@ void encryptDecryptMessage() {
     }
 
     deshif.clear();
-    size_t pos = 0;
-    while ((pos = encrypted_message.find(" ")) != string::npos) {
-        deshif.push_back(stoi(encrypted_message.substr(0, pos)));
-        encrypted_message.erase(0, pos + 1);
-    }
-    if (!encrypted_message.empty()) {
-        deshif.push_back(stoi(encrypted_message));
+    stringstream ss(encrypted_message);
+    uint64_t value;
+    while (ss >> value) {
+        deshif.push_back(value);
     }
 
     filename = "decrypted_message.txt";
     ofstream outfile(filename);
     if (outfile.is_open()) {
-        for (int i = 0; i < deshif.size(); i++) { // дешифрование
+        for (uint64_t i = 0; i < deshif.size(); i++) { // Дешифрование
             m = ((deshif[i] % p) * mod(r, (p - 1 - xb), p, p - 1)) % p;
-            outfile << static_cast<char>(m);
+            outfile << static_cast<char>(static_cast<unsigned char>(m)); // Обратное преобразование в символ
         }
         outfile.close();
         cout << "Расшифрованное сообщение записано в " << filename << endl;
@@ -168,42 +174,42 @@ void clearConsole() {
 
 void elgamal(string& password) {
     string userpass;
-    do{
-    cout << "Введите пароль: ";
-    cin >> userpass;
-    if (password == userpass)
-    {   
-        clearConsole();
-        break;
-    }
-    else {
-        cout << endl << "Неверный пароль!" << endl;
-    }
+    do {
+        cout << "Введите пароль: ";
+        cin >> userpass;
+        if (password == userpass)
+        {
+            clearConsole();
+            break;
+        }
+        else {
+            cout << endl << "Неверный пароль!" << endl;
+        }
 
-    } while(true);
-    
-        int choice;
-        do {
-            cout << "Выберите операцию:\n";
-            cout << "1. Реализация алгоритма\n";
-            cout << "2. Очистить консоль\n";
-            cout << "3. Выход\n";
-            cout << "Ваш выбор: ";
-            cin >> choice;
+    } while (true);
 
-            switch (choice) {
-            case 1:
-                encryptDecryptMessage();
-                break;
-            case 2:
-                clearConsole();
-                break;
-            case 3:
-                cout << "Выход из программы.\n";
-                break;
-            default:
-                cout << "Неверный выбор. Пожалуйста, попробуйте снова.\n";
-                break;
-            }
-        } while (choice != 3);
+    int choice;
+    do {
+        cout << "Выберите операцию:\n";
+        cout << "1. Реализация алгоритма\n";
+        cout << "2. Очистить консоль\n";
+        cout << "3. Выход\n";
+        cout << "Ваш выбор: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            encryptDecryptMessage();
+            break;
+        case 2:
+            clearConsole();
+            break;
+        case 3:
+            cout << "Выход из программы.\n";
+            break;
+        default:
+            cout << "Неверный выбор. Пожалуйста, попробуйте снова.\n";
+            break;
+        }
+    } while (choice != 3);
 }
