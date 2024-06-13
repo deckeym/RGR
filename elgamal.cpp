@@ -1,8 +1,8 @@
 
 #include "function.h"
 
-long long int mod(long long int g, long long x, long long p, long long y) {
-    long long res = 1;
+uint64_t mod(uint64_t g, uint64_t x, uint64_t p, uint64_t y) {
+    uint64_t res = 1;
     if (g % p == 0) {
         return 0;
     }
@@ -19,7 +19,7 @@ long long int mod(long long int g, long long x, long long p, long long y) {
     return res;
 }
 
-long long nod(long long p, long long g) {
+uint64_t nod(uint64_t p, uint64_t g) {
     while (p > 0 && g > 0) {
         if (p > g)
             p %= g;
@@ -29,7 +29,7 @@ long long nod(long long p, long long g) {
     return p + g;
 }
 
-bool prost(long long x) {
+bool prost(uint64_t x) {
     if (x < 2) {
         return false;
     }
@@ -41,7 +41,7 @@ bool prost(long long x) {
     return true;
 }
 
-bool getValidLongLongInput(long long &value) {
+bool getValidLongLongInput(uint64_t &value) {
     string input;
     cin >> input;
     try {
@@ -57,8 +57,8 @@ bool getValidLongLongInput(long long &value) {
 }
 
 void encryptDecryptMessage() {
-    long long p, g, xa, xb;
-    long long Ya, Yb, r, e, m;
+    uint64_t p, g, xa, xb;
+    uint64_t Ya, Yb, r, e, m;
     srand(time(0));
     p = 1 + rand() % 100000000;
     g = 1 + rand() % (p - 1);
@@ -89,7 +89,7 @@ void encryptDecryptMessage() {
     cout << "Открытый ключ B: " << Yb << endl;
 
     string M, filename;
-    cout << "Введите сообщение (английские буквы или цифры): ";
+    cout << "Введите сообщение: ";
     cin.ignore();
     getline(cin, M);
 
@@ -100,8 +100,8 @@ void encryptDecryptMessage() {
         shif.push_back(static_cast<int>(c));
     }
 
-    long long K;
-    for (long long i = 2; i < p - 1; i++) {
+    uint64_t K;
+    for (uint64_t i = 2; i < p - 1; i++) {
         if (nod(i, p - 1) == 1) {
             K = i;
             break;

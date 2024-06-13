@@ -29,13 +29,13 @@ string ReadFromFile(const string& filename);
 
 //Скитала
 
-long long int mod(long long int g, long long x, long long p, long long y);
+uint64_t mod(uint64_t g, uint64_t x, uint64_t p, uint64_t y);
 
-long long nod(long long p, long long g);
+uint64_t nod(uint64_t p, uint64_t g);
 
-bool prost(long long x);
+bool prost(uint64_t x);
 
-bool getValidLongLongInput(long long &value);
+bool getValidLongLongInput(uint64_t &value);
 
 void encryptDecryptMessage();
 
