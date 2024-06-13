@@ -1,4 +1,5 @@
-#include "elgamal.h"
+
+#include "function.h"
 
 long long int mod(long long int g, long long x, long long p, long long y) {
     long long res = 1;

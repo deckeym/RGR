@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iomanip>
 #include "function.h"
+
+
 using namespace std;
 const char* SYSTEM_CLEAR = "cls";
 
@@ -26,8 +28,8 @@ int main()
 			{
 				system(SYSTEM_CLEAR);
 				cout << "------------------MENU------------------" << endl;
-				cout <<"1. Шифр Виженера" << endl;
-				cout << "2. Шифр Атбаш" << endl;
+				cout <<"1. Шифр Скитала" << endl;
+				cout << "2. Шифр Ель - Гамаля" << endl;
 				cout << "3. Шифр Аффинный" << endl;
 				cout << "4. Выход" << endl;
 				cout << "Введите номер шифра: ";

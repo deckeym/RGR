@@ -3,10 +3,42 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
-#include "scytale.h"
+#include "function.h"
 
 using namespace std;
 extern const char* SYSTEM_CLEAR;
+
+
+
+// Функция проверки существования файла
+bool exist(const string& filename) {
+    ifstream file(filename);
+    return file.good();
+}
+
+// Функция записи текста в файл
+void WriteIntoFile(const string& filename, const string& content) {
+    ofstream file(filename);
+    if (file.is_open()) {
+        file << content;
+        file.close();
+        cout << "Текст успешно записан в файл " << filename << endl;
+    } else {
+        throw logic_error("Невозможно открыть файл для записи: " + filename);
+    }
+}
+
+// Функция чтения текста из файла
+string ReadFromFile(const string& filename) {
+    ifstream file(filename);
+    if (file.is_open()) {
+        string content((istreambuf_iterator<char>(file)), (istreambuf_iterator<char>()));
+        file.close();
+        return content;
+    } else {
+        throw logic_error("Невозможно открыть файл для чтения: " + filename);
+    }
+}
 
 string cleanOutput(const string& output) {
 	string cleanedOutput = output;
@@ -77,11 +109,25 @@ string decodeScytale(string& encodedMessage, int diameter) {
 }
 
 
-void scytale(string& password1, string& password2)
+void scytale(string& password)
 {
+    string userpass;
+    do{
+    cout << "Введите пароль: ";
+    cin >> userpass;
+    if (password == userpass)
+    {   
+        break;
+    }
+    else {
+        cout << endl << "Неверный пароль!" << endl;
+    }
+
+    } while(true);
+    
 	system("chcp 1251 > nul");
-	int pick,diametr1,diametr2, pickencode;
-	string pass1, pass2, message,filename;
+	int pick, diametr1, diametr2, pickencode;
+	string pass1, pass2, message, filename;
 	while (true) {
 		try {
 			cout << "Шифр Скитала" << endl
@@ -100,7 +146,7 @@ void scytale(string& password1, string& password2)
 			if (pick == 1) {
 				cout << "Введите пароль кодирования" << endl;
 				cin >> pass1;
-				if (pass1 == password1) {
+				if (pass1 == password) {
 					cout << "Выберите действие:" << endl
 						<< "1.Ввести текст с консоли" << endl
 						<< "2.Считать текст из файла" << endl;
@@ -120,7 +166,7 @@ void scytale(string& password1, string& password2)
 						if (cin.fail() || cin.peek() != '\n') {
 							throw logic_error("Вы вводите не цифру!");
 						}
-						WriteIntoFile("scytale.txt", message);
+						WriteIntoFile("sсytale.txt", message);
 						string encodedText2 = ReadFromFile("scytale.txt");
 						string encoded2 = encodeScytale(encodedText2, diametr1);
 						string cleanedEncoded2 = cleanOutput(encoded2);
@@ -152,7 +198,7 @@ void scytale(string& password1, string& password2)
 			else if (pick == 2) {
 				cout << "Введите пароль декодирования:" << endl;
 				cin >> pass2;
-				if (pass2 == password2) {
+				if (pass2 == password) {
 					cout << "Введите диаметр скитала: ";
 					cin >> diametr2;
 					if (cin.fail() || cin.peek() != '\n') {
