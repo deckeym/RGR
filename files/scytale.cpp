@@ -10,25 +10,25 @@ extern const char* SYSTEM_CLEAR;
 
 
 
-// Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ С„Р°Р№Р»Р°
+// Функция проверки существования файла
 bool exist(const string& filename) {
     ifstream file(filename);
     return file.good();
 }
 
-// Р¤СѓРЅРєС†РёСЏ Р·Р°РїРёСЃРё С‚РµРєСЃС‚Р° РІ С„Р°Р№Р»
+// Функция записи текста в файл
 void WriteIntoFile(const string& filename, const string& content) {
     ofstream file(filename);
     if (file.is_open()) {
         file << content;
         file.close();
-        cout << "РўРµРєСЃС‚ СѓСЃРїРµС€РЅРѕ Р·Р°РїРёСЃР°РЅ РІ С„Р°Р№Р» " << filename << endl;
+        cout << "Текст успешно записан в файл " << filename << endl;
     } else {
-        throw logic_error("РќРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РґР»СЏ Р·Р°РїРёСЃРё: " + filename);
+        throw logic_error("Невозможно открыть файл для записи: " + filename);
     }
 }
 
-// Р¤СѓРЅРєС†РёСЏ С‡С‚РµРЅРёСЏ С‚РµРєСЃС‚Р° РёР· С„Р°Р№Р»Р°
+// Функция чтения текста из файла
 string ReadFromFile(const string& filename) {
     ifstream file(filename);
     if (file.is_open()) {
@@ -36,7 +36,7 @@ string ReadFromFile(const string& filename) {
         file.close();
         return content;
     } else {
-        throw logic_error("РќРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РґР»СЏ С‡С‚РµРЅРёСЏ: " + filename);
+        throw logic_error("Невозможно открыть файл для чтения: " + filename);
     }
 }
 
@@ -113,14 +113,14 @@ void scytale(string& password)
 {
     string userpass;
     do{
-    cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ: ";
+    cout << "Введите пароль: ";
     cin >> userpass;
     if (password == userpass)
     {   
         break;
     }
     else {
-        cout << endl << "РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ!" << endl;
+        cout << endl << "Неверный пароль!" << endl;
     }
 
     } while(true);
@@ -130,43 +130,43 @@ void scytale(string& password)
 	string pass1, pass2, message, filename;
 	while (true) {
 		try {
-			cout << "РЁРёС„СЂ РЎРєРёС‚Р°Р»Р°" << endl
-				<< "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ:" << endl
-				<< "1.Р—Р°С€РёС„СЂРѕРІР°С‚СЊ" << endl
-				<< "2.Р”РµС€РёС„СЂРѕРІР°С‚СЊ" << endl
-				<< "3.Р’С‹С…РѕРґ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ" << endl;
+			cout << "Шифр Скитала" << endl
+				<< "Выберите действие:" << endl
+				<< "1.Зашифровать" << endl
+				<< "2.Дешифровать" << endl
+				<< "3.Выход в главное меню" << endl;
 			cin >> pick;
 			while (cin.fail() || cin.peek()!='\n') {
-				throw logic_error("РћС€РёР±РєР° РІРІРѕРґР°!");
+				throw logic_error("Ошибка ввода!");
 				cin >> pick;
 			}
 			if (pick!= 1 && pick != 2 && pick != 3) {
-				throw logic_error("Р’С‹ РІРІРµР»Рё РЅРµРІРµСЂРЅСѓСЋ РєРѕРјР°РЅРґСѓ!");
+				throw logic_error("Вы ввели неверную команду!");
 			}
 			if (pick == 1) {
-				cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ РєРѕРґРёСЂРѕРІР°РЅРёСЏ" << endl;
+				cout << "Введите пароль кодирования" << endl;
 				cin >> pass1;
 				if (pass1 == password) {
-					cout << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ:" << endl
-						<< "1.Р’РІРµСЃС‚Рё С‚РµРєСЃС‚ СЃ РєРѕРЅСЃРѕР»Рё" << endl
-						<< "2.РЎС‡РёС‚Р°С‚СЊ С‚РµРєСЃС‚ РёР· С„Р°Р№Р»Р°" << endl;
+					cout << "Выберите действие:" << endl
+						<< "1.Ввести текст с консоли" << endl
+						<< "2.Считать текст из файла" << endl;
 					cin >> pickencode;
 					if (cin.fail() || cin.peek() != '\n') {
-						throw logic_error("РѕС€РёР±РєР° РІРІРѕРґР°!");
+						throw logic_error("ошибка ввода!");
 					}
 					if (pickencode != 1 && pickencode != 2) {
-						throw logic_error("Р’С‹ РІРІРµР»Рё РЅРµРІРµСЂРЅСѓСЋ РєРѕРјР°РЅРґСѓ!");
+						throw logic_error("Вы ввели неверную команду!");
 					}
 					if (pickencode == 1) {
-						cout << "Р’РІРµРґРёС‚Рµ С‚РµРєСЃС‚: ";
+						cout << "Введите текст: ";
 						cin.ignore();
 						getline(cin, message);
-						cout << "Р’РІРµРґРёС‚Рµ РґРёР°РјРµС‚СЂ СЃРєРёС‚Р°Р»Р°: ";
+						cout << "Введите диаметр скитала: ";
 						cin >> diametr1;
 						if (cin.fail() || cin.peek() != '\n') {
-							throw logic_error("Р’С‹ РІРІРѕРґРёС‚Рµ РЅРµ С†РёС„СЂСѓ!");
+							throw logic_error("Вы вводите не цифру!");
 						}
-						WriteIntoFile("sСЃytale.txt", message);
+						WriteIntoFile("sсytale.txt", message);
 						string encodedText2 = ReadFromFile("scytale.txt");
 						string encoded2 = encodeScytale(encodedText2, diametr1);
 						string cleanedEncoded2 = cleanOutput(encoded2);
@@ -174,14 +174,14 @@ void scytale(string& password)
 						WriteIntoFile("decoded.txt", encoded2);
 					}
 					if (pickencode == 2) {
-						cout << "Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° СЃ СЂР°СЃС€РёСЂРµРЅРёРµРј:";
+						cout << "Введите название файла с расширением:";
 						cin >> filename;
 						if (exist(filename) == false)
-							throw logic_error("РўР°РєРѕРіРѕ С„Р°Р№Р»Р° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РёР»Рё РµРіРѕ РЅРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ!");
-						cout << "Р’РІРµРґРёС‚Рµ РґРёР°РјРµС‚СЂ СЃРєРёС‚Р°Р»Р°: ";
+							throw logic_error("Такого файла не существует или его невозможно открыть!");
+						cout << "Введите диаметр скитала: ";
 						cin >> diametr2;
 						if (cin.fail() || cin.peek() != '\n') {
-							throw logic_error("Р’С‹ РІРІРѕРґРёС‚Рµ РЅРµ С†РёС„СЂСѓ!");
+							throw logic_error("Вы вводите не цифру!");
 						}
 						string encodedText1 = ReadFromFile(filename);
 						string encoded1 = encodeScytale(encodedText1, diametr2);
@@ -192,26 +192,26 @@ void scytale(string& password)
 
 				}
 				else {
-					throw logic_error("РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ РєРѕРґРёСЂРѕРІР°РЅРёСЏ");
+					throw logic_error("Неверный пароль кодирования");
 				}
 			}
 			else if (pick == 2) {
-				cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ РґРµРєРѕРґРёСЂРѕРІР°РЅРёСЏ:" << endl;
+				cout << "Введите пароль декодирования:" << endl;
 				cin >> pass2;
 				if (pass2 == password) {
-					cout << "Р’РІРµРґРёС‚Рµ РґРёР°РјРµС‚СЂ СЃРєРёС‚Р°Р»Р°: ";
+					cout << "Введите диаметр скитала: ";
 					cin >> diametr2;
 					if (cin.fail() || cin.peek() != '\n') {
-						throw logic_error("Р’С‹ РІРІРѕРґРёС‚Рµ РЅРµ С†РёС„СЂСѓ!");
+						throw logic_error("Вы вводите не цифру!");
 					}
 					string encodedText1 = ReadFromFile("decoded.txt");
 					string decoded1 = decodeScytale(encodedText1, diametr2);
 					string cleanedDecoded1 = cleanOutput(decoded1);
 					WriteIntoFile("decoded1.txt", cleanedDecoded1);
-					cout << "Р Р°СЃС€РёС„СЂРѕРІР°РЅРЅС‹Р№ С‚РµРєСЃС‚: " << cleanedDecoded1 << endl;
+					cout << "Расшифрованный текст: " << cleanedDecoded1 << endl;
 				}
 				else {
-					throw logic_error("РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ РґРµРєРѕРґРёСЂРѕРІР°РЅРёСЏ");
+					throw logic_error("Неверный пароль декодирования");
 				}
 			}
 			else if (pick == 3) {

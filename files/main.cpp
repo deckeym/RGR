@@ -13,12 +13,12 @@ int main()
 	system("chcp 1251 > nul");
 	string userpass,userpasssys, password="world!", adminpass="hello";
 	char choice;
-	cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ РґР»СЏ РІС…РѕРґР° РІ СЃРёСЃС‚РµРјСѓ: ";
+	cout << "Введите пароль для входа в систему: ";
 	getline(cin, userpasssys);
 	while (userpasssys != adminpass)
 	{
-		cout << "РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ!"<<endl;
-		cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ РґР»СЏ РІС…РѕРґР° РІ СЃРёСЃС‚РµРјСѓ: ";
+		cout << "Неверный пароль!"<<endl;
+		cout << "Введите пароль для входа в систему: ";
 		getline(cin, userpasssys);
 	}
 	system(SYSTEM_CLEAR);
@@ -27,17 +27,16 @@ int main()
 			try
 			{
 				system(SYSTEM_CLEAR);
-				cout << "------------------РњР•РќР®------------------" << endl;
-				cout <<"1. РЁРёС„СЂ РЎРєРёС‚Р°Р»Р°" << endl;
-				cout << "2. РЁРёС„СЂ Р•Р»СЊ - Р“Р°РјР°Р»СЏ" << endl;
-				cout << "3. РЁРёС„СЂ РђС„С„РёРЅРЅС‹Р№" << endl;
-				cout << "4. Р’С‹С…РѕРґ" << endl;
-				cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ С€РёС„СЂР°: ";
-				cout << "----------------------------------------" << endl;
+				cout << "------------------МЕНЮ------------------" << endl;
+				cout <<"1. Шифр Скитала" << endl;
+				cout << "2. Шифр Эль - Гамаля" << endl;
+				cout << "3. Шифр Аффинный" << endl;
+				cout << "4. Выход" << endl;
+				cout << "Введите номер шифра: ";
 				cin >> choice;
 				if (choice != '1' && choice != '2' && choice != '3' && choice != '4')
 				{
-					throw logic_error("РўР°РєРѕР№ РѕРїРµСЂР°С†РёРё РЅРµС‚ РІ СЃРїРёСЃРєРµ");
+					throw logic_error("Такой операции нет в списке");
 				}
 				else if (choice == '4')
 				{
@@ -67,7 +66,7 @@ int main()
 			}
 			catch (const exception& e)
 			{
-				cerr << "РћС€РёР±РєР°: " << e.what()<<endl;
+				cerr << "Ошибка: " << e.what()<<endl;
 				cin.clear();
 				cin.ignore(256, '\n');
 			}

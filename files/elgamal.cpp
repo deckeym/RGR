@@ -56,10 +56,10 @@ bool getValidLongLongInput(uint64_t &value) {
     try {
         value = stoll(input);
     } catch (invalid_argument &e) {
-        cout << "РћС€РёР±РєР°: Р’РІРµРґРёС‚Рµ С†РµР»РѕРµ С‡РёСЃР»Рѕ.\n";
+        cout << "Ошибка: Введите целое число.\n";
         return false;
     } catch (out_of_range &e) {
-        cout << "РћС€РёР±РєР°: Р’РІРµРґРµРЅРЅРѕРµ С‡РёСЃР»Рѕ РІРЅРµ РґРѕРїСѓСЃС‚РёРјРѕРіРѕ РґРёР°РїР°Р·РѕРЅР°.\n";
+        cout << "Ошибка: Введенное число вне допустимого диапазона.\n";
         return false;
     }
     return true;
@@ -78,27 +78,27 @@ void encryptDecryptMessage() {
     cout << "G = " << g << " P = " << p << endl;
 
     while (true) {
-        cout << "Р’РІРµРґРёС‚Рµ РєР»СЋС‡ A: ";
+        cout << "Введите ключ A: ";
         if (getValidLongLongInput(xa)) {
             break;
         }
     }
 
     while (true) {
-        cout << "Р’РІРµРґРёС‚Рµ РєР»СЋС‡ B: ";
+        cout << "Введите ключ B: ";
         if (getValidLongLongInput(xb)) {
             break;
         }
     }
 
-    Ya = mod(g, xa, p, p - 1); // РІС‹С‡РёСЃР»РµРЅРёРµ РѕС‚РєСЂС‹С‚РѕРіРѕ РєР»СЋС‡Р°
-    cout << "РћС‚РєСЂС‹С‚С‹Р№ РєР»СЋС‡ A: " << Ya << endl;
+    Ya = mod(g, xa, p, p - 1); // вычисление открытого ключа
+    cout << "Открытый ключ A: " << Ya << endl;
 
-    Yb = mod(g, xb, p, p - 1); // РІС‹С‡РёСЃР»РµРЅРёРµ РѕС‚РєСЂС‹С‚РѕРіРѕ РєР»СЋС‡Р°
-    cout << "РћС‚РєСЂС‹С‚С‹Р№ РєР»СЋС‡ B: " << Yb << endl;
+    Yb = mod(g, xb, p, p - 1); // вычисление открытого ключа
+    cout << "Открытый ключ B: " << Yb << endl;
 
     string M, filename;
-    cout << "Р’РІРµРґРёС‚Рµ СЃРѕРѕР±С‰РµРЅРёРµ: ";
+    cout << "Введите сообщение: ";
     cin.ignore();
     getline(cin, M);
 
@@ -106,7 +106,7 @@ void encryptDecryptMessage() {
     vector<uint64_t> deshif;
 
     for (char c : M) {
-        shif.push_back(static_cast<uint64_t>(static_cast<unsigned char>(c))); // РЎРѕС…СЂР°РЅСЏРµРј Unicode-Р·РЅР°С‡РµРЅРёРµ РєР°Р¶РґРѕРіРѕ СЃРёРјРІРѕР»Р°
+        shif.push_back(static_cast<uint64_t>(static_cast<unsigned char>(c))); // Сохраняем Unicode-значение каждого символа
     }
 
     uint64_t K;
@@ -119,7 +119,7 @@ void encryptDecryptMessage() {
     r = mod(g, K, p, p - 1);
     cout << "r = " << r << endl;
 
-    for (int i = 0; i < shif.size(); i++) { // РЁРёС„СЂРѕРІР°РЅРёРµ
+    for (int i = 0; i < shif.size(); i++) { // Шифрование
         e = ((shif[i] % p) * (mod(Yb, K, p, p - 1))) % p;
         deshif.push_back(e);
     }
@@ -131,9 +131,9 @@ void encryptDecryptMessage() {
             file << i << " ";
         }
         file.close();
-        cout << "Р—Р°С€РёС„СЂРѕРІР°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ Р·Р°РїРёСЃР°РЅРѕ РІ " << filename << endl;
+        cout << "Зашифрованное сообщение записано в " << filename << endl;
     } else {
-        cout << "РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РґР»СЏ Р·Р°РїРёСЃРё.\n";
+        cout << "Не удалось открыть файл для записи.\n";
         return;
     }
 
@@ -143,7 +143,7 @@ void encryptDecryptMessage() {
         getline(infile, encrypted_message, '\0');
         infile.close();
     } else {
-        cout << "РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РґР»СЏ С‡С‚РµРЅРёСЏ.\n";
+        cout << "Не удалось открыть файл для чтения.\n";
         return;
     }
 
@@ -157,14 +157,14 @@ void encryptDecryptMessage() {
     filename = "decrypted_message.txt";
     ofstream outfile(filename);
     if (outfile.is_open()) {
-        for (uint64_t i = 0; i < deshif.size(); i++) { // Р”РµС€РёС„СЂРѕРІР°РЅРёРµ
+        for (uint64_t i = 0; i < deshif.size(); i++) { // Дешифрование
             m = ((deshif[i] % p) * mod(r, (p - 1 - xb), p, p - 1)) % p;
-            outfile << static_cast<char>(static_cast<unsigned char>(m)); // РћР±СЂР°С‚РЅРѕРµ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РІ СЃРёРјРІРѕР»
+            outfile << static_cast<char>(static_cast<unsigned char>(m)); // Обратное преобразование в символ
         }
         outfile.close();
-        cout << "Р Р°СЃС€РёС„СЂРѕРІР°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ Р·Р°РїРёСЃР°РЅРѕ РІ " << filename << endl;
+        cout << "Расшифрованное сообщение записано в " << filename << endl;
     } else {
-        cout << "РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» РґР»СЏ Р·Р°РїРёСЃРё.\n";
+        cout << "Не удалось открыть файл для записи.\n";
     }
 }
 
@@ -175,7 +175,7 @@ void clearConsole() {
 void elgamal(string& password) {
     string userpass;
     do {
-        cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ: ";
+        cout << "Введите пароль: ";
         cin >> userpass;
         if (password == userpass)
         {
@@ -183,18 +183,18 @@ void elgamal(string& password) {
             break;
         }
         else {
-            cout << endl << "РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ!" << endl;
+            cout << endl << "Неверный пароль!" << endl;
         }
 
     } while (true);
 
     int choice;
     do {
-        cout << "Р’С‹Р±РµСЂРёС‚Рµ РѕРїРµСЂР°С†РёСЋ:\n";
-        cout << "1. Р РµР°Р»РёР·Р°С†РёСЏ Р°Р»РіРѕСЂРёС‚РјР°\n";
-        cout << "2. РћС‡РёСЃС‚РёС‚СЊ РєРѕРЅСЃРѕР»СЊ\n";
-        cout << "3. Р’С‹С…РѕРґ\n";
-        cout << "Р’Р°С€ РІС‹Р±РѕСЂ: ";
+        cout << "Выберите операцию:\n";
+        cout << "1. Реализация алгоритма\n";
+        cout << "2. Очистить консоль\n";
+        cout << "3. Выход\n";
+        cout << "Ваш выбор: ";
         cin >> choice;
 
         switch (choice) {
@@ -205,10 +205,10 @@ void elgamal(string& password) {
             clearConsole();
             break;
         case 3:
-            cout << "Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹.\n";
+            cout << "Выход из программы.\n";
             break;
         default:
-            cout << "РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ. РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РїРѕРїСЂРѕР±СѓР№С‚Рµ СЃРЅРѕРІР°.\n";
+            cout << "Неверный выбор. Пожалуйста, попробуйте снова.\n";
             break;
         }
     } while (choice != 3);

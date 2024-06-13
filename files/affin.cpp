@@ -34,13 +34,13 @@ void affin(string& password)
     while (true)
     {
         try {
-            cout << "Choose an operation: 1 - encryption, 2 - decryption, 3 - clear console, 0 - exit" << endl;
-            cout << "Enter operation number: ";
+            cout << "Выберите операцию: 1 - шифрование, 2 - дешифрование, 3 - очистка консоли, 0 - выход" << endl;
+            cout << "Введите номер операции: ";
             cin >> oper;
             if (cin.peek() != '\n' || cin.fail())
             {
-                throw logic_error("You entered a string");
-                cout << "Enter operation number: ";
+                throw logic_error("Вы ввели строку");
+                cout << "Введите номер операции: ";
                 cin >> oper;
             }
             if (oper == 0)
@@ -53,42 +53,42 @@ void affin(string& password)
             }
             else if (oper != 1 && oper != 2)
             {
-                throw logic_error("This operation is not in the list!");
+                throw logic_error("Этой операции нет в списке!");
             }
             else if (oper == 1)
             {
-                cout << "Enter password: ";
+                cout << "Введите пароль: ";
                 cin >> userpass;
                 if (userpass != password)
                 {
-                    throw logic_error("Invalid password");
+                    throw logic_error("Неверный пароль");
                 }
-                cout << "Choose input: 1 - from console, 2 - from file" << endl;
-                cout << "Enter operation number: ";
+                cout << "Выберите ввод: 1 - с консоли, 2 - из файла" << endl;
+                cout << "Введите номер операции: ";
                 cin >> vvod;
                 if (cin.peek() != '\n' || cin.fail())
                 {
-                    throw logic_error("You entered a string");
+                    throw logic_error("Вы ввели строку");
                 }
                 cin.ignore(256, '\n');
                 if (vvod == 1)
                 {
-                    cout << "Enter text: ";
+                    cout << "Введите текст: ";
                     getline(cin, text);
 
                     writeToFile("plaintext.txt", text);
 
-                    cout << "Enter additive key: ";
+                    cout << "Введите аддитивный ключ: ";
                     cin >> addKey;
                     while (cin.fail())
                     {
-                        throw logic_error("You entered a string");
+                        throw logic_error("Вы ввели строку");
                     }
                     cin.ignore(256,'\n');
 
                     if (addKey == 0)
                     {
-                        cout << "No shift will be performed" << endl;
+                        cout << "Сдвиг не будет выполнен" << endl;
                         return;
                     }
 
@@ -100,11 +100,11 @@ void affin(string& password)
                     bool a = true;
                     while (a)
                     {
-                        cout << "Enter multiplicative key: ";
+                        cout << "Введите мультипликативный ключ: ";
                         cin >> multKey;
                         while (cin.fail())
                         {
-                            throw logic_error("You entered a string");
+                            throw logic_error("Вы ввели строку");
                         }
                         cin.ignore();
 
@@ -118,7 +118,7 @@ void affin(string& password)
                             if (multKey * i % 256 == 1)
                             {
                                 inv = i;
-                                cout << "Multiplicative inverse: " << inv << endl;
+                                cout << "Мультипликативная обратная: " << inv << endl;
                                 a = false;
                                 break;
                             }
@@ -126,7 +126,7 @@ void affin(string& password)
 
                         if (a)
                         {
-                            cout << "Cannot find inverse, try another key" << endl;
+                            cout << "Невозможно найти обратный ключ, попробуйте другой" << endl;
                         }
                     }
 
@@ -135,27 +135,27 @@ void affin(string& password)
 
                     writeToFile("encrypted.txt", encoded);
 
-                    cout << "Encrypted text has been written to encrypted.txt " << endl;
+                    cout << "Зашифрованный текст записан в encrypted.txt " << endl;
                 }
                 else if (vvod == 2)
                 {
                     cin.ignore(256, '\n');
-                    cout << "Enter file name: ";
+                    cout << "Введите имя файла: ";
                     cin >> fname;
                     cin.ignore(256, '\n');
                     string encodedText = readFromFile(fname);
 
-                    cout << "Enter additive key: ";
+                    cout << "Введите аддитивный ключ: ";
                     cin >> addKey;
                     while (cin.fail())
                     {
-                        throw logic_error("You entered a string");
+                        throw logic_error("Вы ввели строку");
                     }
                     cin.ignore();
 
                     if (addKey == 0)
                     {
-                        cout << "No shift will be performed" << endl;
+                        cout << "Сдвиг не будет выполнен" << endl;
                         return;
                     }
 
@@ -167,11 +167,11 @@ void affin(string& password)
                     bool a = true;
                     while (a)
                     {
-                        cout << "Enter multiplicative key: ";
+                        cout << "Введите мультипликативный ключ: ";
                         cin >> multKey;
                         while (cin.fail())
                         {
-                            throw logic_error("You entered a string");
+                            throw logic_error("Вы ввели строку");
                         }
                         cin.ignore();
                        
@@ -185,7 +185,7 @@ void affin(string& password)
                             if (multKey * i % 256 == 1)
                             {
                                 inv = i;
-                                cout << "Multiplicative inverse: " << inv << endl;
+                                cout << "Мультипликативная обратная: " << inv << endl;
                                 a = false;
                                 break;
                             }
@@ -193,7 +193,7 @@ void affin(string& password)
 
                         if (a)
                         {
-                            cout << "Cannot find inverse, try another key" << endl;
+                            cout << "Невозможно найти обратный ключ, попробуйте другой" << endl;
                         }
                     }
 
@@ -202,29 +202,29 @@ void affin(string& password)
 
                     writeToFile("encrypted.txt", encoded);
 
-                    cout << "Encrypted text has been written to encrypted.txt " << endl;
+                    cout << "Зашифрованный текст записан в encrypted.txt " << endl;
                 }
             }
            
             else if (oper == 2)
             {
-                cout << "Enter password: ";
+                cout << "Введите пароль: ";
                 cin >> userpass;
                 if (userpass != password)
                 {
-                    throw logic_error("Invalid password");
+                    throw logic_error("Неверный пароль");
                 }
 
                 string encodedText = readFromFile("encrypted.txt");
                 string decoded = decode(encodedText, addKey, inv);
                 writeToFile("decrypted.txt", decoded);
 
-                cout << "Decrypted text has been written to decrypted.txt: " << decoded << endl;
+                cout << "Дешифрованный текст записан в decrypted.txt: " << decoded << endl;
             }
         }
         catch (const exception& e)
         {
-            cerr << "Error: " << e.what() << endl;
+            cerr << "Ошибка: " << e.what() << endl;
             cin.clear();
             cin.ignore(256, '\n');
         }

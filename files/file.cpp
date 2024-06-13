@@ -10,7 +10,7 @@ void writeToFile(const string& filename, const string& text) {
         file.close();
     }
     else {
-        throw runtime_error("Unable to write to file: " + filename);
+        throw runtime_error("Неудалость прочесть файл: " + filename);
     }
 }
 
@@ -27,6 +27,6 @@ string readFromFile(const string& filename) {
         return content;
     }
     else {
-        throw runtime_error("Unable to read from file: " + filename);
+        throw runtime_error("Неудалось прочесть файл: " + filename);
     }
 }

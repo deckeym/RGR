@@ -42,7 +42,7 @@ void encryptDecryptMessage();
 void clearConsole();
 
 void elgamal(string& password);
-// ель - гамаля
+// эль - гамаля
 
 void scytale(string& password);
 
